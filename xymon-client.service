@@ -1,0 +1,19 @@
+[Unit]
+Description=Xymon monitoring agent
+After=network.target
+
+[Service]
+Environment="XYMONCLIENTHOME=/usr/lib/xymon/client"
+Environment="XYMONOSSCRIPT=xymonclient-linux.sh"
+Environment="SERVEROSTYPE=linux"
+ExecStartPre=/usr/lib/xymon/client/prepare-env.sh
+ExecStart=/usr/lib/xymon/client/bin/xymoncmd /usr/lib/xymon/client/bin/xymonlaunch --no-daemon --config=/usr/lib/xymon/client/etc/clientlaunch.cfg
+User=xymon
+Restart=always
+RestartSec=30
+KillMode=process
+PermissionsStartOnly=true
+
+[Install]
+WantedBy=multi-user.target
+Alias=xymon
